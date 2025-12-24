@@ -18,6 +18,22 @@ const double _bodySize = 15;
 const EdgeInsets _pagePadding = EdgeInsets.all(20);
 
 // =======================
+// 🖼️ IMÁGENES LOCALES - RUTAS FIJAS
+// =======================
+class AboutImages {
+  // Imágenes de about
+  static const String heroBackground = 'assets/images/about/about1.jpg';
+  static const String missionImage = 'assets/images/about/about2.png';   
+  static const String visionImage = 'assets/images/about/about3.jpg';    
+  static const String valuesImage = 'assets/images/about/about4.jpg';    
+  static const String experienceImage = 'assets/images/about/about5.jpg';
+  
+  // Imágenes adicionales para las otras secciones
+  static const String manifestoImage = 'assets/images/about/about4.jpg';
+  static const String valuesBgImage = 'assets/images/about/about3.jpg';
+}
+
+// =======================
 // 🧠 LÓGICA / ESTADO
 // =======================
 
@@ -33,12 +49,14 @@ class AboutController {
       'title': 'Nuestra misión',
       'text': 'Convertir la contabilidad en una herramienta clara, útil y comprensible.',
       'color': Color(0xFF3B82F6),
+      'image': AboutImages.missionImage,
     },
     {
       'icon': Icons.visibility,
       'title': 'Nuestra visión',
       'text': 'Ser la firma contable que se recomienda por cercanía y resultados reales.',
       'color': Color(0xFF8B5CF6),
+      'image': AboutImages.visionImage,
     },
   ];
 
@@ -61,6 +79,40 @@ class AboutController {
 class AboutPage extends StatelessWidget {
   const AboutPage({super.key});
 
+  // Método auxiliar para cargar imágenes con manejo de errores
+  Widget _buildImage(String assetPath, {BoxFit fit = BoxFit.cover}) {
+    return Image.asset(
+      assetPath,
+      fit: fit,
+      errorBuilder: (context, error, stackTrace) {
+        print('Error loading image: $assetPath');
+        return Container(
+          color: _primaryColor.withOpacity(0.1),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.image,
+                  color: _primaryColor,
+                  size: 40,
+                ),
+                SizedBox(height: 8),
+                Text(
+                  'Imagen no encontrada',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: _primaryColor,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final controller = AboutController();
@@ -69,78 +121,73 @@ class AboutPage extends StatelessWidget {
       backgroundColor: _bgColor,
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.only(bottom: 120),
+          padding: const EdgeInsets.only(bottom: 100),
           child: Column(
             children: [
               // HEADER CON IMAGEN Y GRADIENTE
-              Stack(
-                children: [
-                  // Imagen de fondo
-                  Container(
-                    height: 280,
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        image: NetworkImage(
-                          'https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=800',
+              Container(
+                height: 280,
+                child: Stack(
+                  children: [
+                    // Imagen de fondo LOCAL
+                    Positioned.fill(
+                      child: _buildImage(AboutImages.heroBackground),
+                    ),
+                    // Gradiente overlay
+                    Container(
+                      height: 280,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Colors.black.withOpacity(0.3),
+                            Colors.black.withOpacity(0.7),
+                          ],
                         ),
-                        fit: BoxFit.cover,
                       ),
                     ),
-                  ),
-                  // Gradiente overlay
-                  Container(
-                    height: 280,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          Colors.black.withOpacity(0.3),
-                          Colors.black.withOpacity(0.7),
+                    // Contenido sobre la imagen
+                    Positioned(
+                      bottom: 30,
+                      left: 20,
+                      right: 20,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 6,
+                            ),
+                            decoration: BoxDecoration(
+                              color: _primaryColor,
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: const Text(
+                              'Sobre Nosotros',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+                          Text(
+                            controller.heroTitle,
+                            style: const TextStyle(
+                              fontSize: 28,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              height: 1.3,
+                            ),
+                          ),
                         ],
                       ),
                     ),
-                  ),
-                  // Contenido sobre la imagen
-                  Positioned(
-                    bottom: 30,
-                    left: 20,
-                    right: 20,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 6,
-                          ),
-                          decoration: BoxDecoration(
-                            color: _primaryColor,
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: const Text(
-                            'Sobre Nosotros',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 12),
-                        Text(
-                          controller.heroTitle,
-                          style: const TextStyle(
-                            fontSize: 28,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                            height: 1.3,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
 
               Padding(
@@ -149,267 +196,341 @@ class AboutPage extends StatelessWidget {
                   children: [
                     const SizedBox(height: 24),
 
-                    // MANIFIESTO
+                    // MANIFIESTO - CON FONDO DE IMAGEN
                     Container(
-                      padding: const EdgeInsets.all(24),
+                      height: 180, // Reducido de 180
                       decoration: BoxDecoration(
-                        color: _cardColor,
-                        borderRadius: BorderRadius.circular(24),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.06),
-                            blurRadius: 20,
-                            offset: const Offset(0, 8),
+                        borderRadius: BorderRadius.circular(20),
+                        image: DecorationImage(
+                          image: AssetImage(AboutImages.manifestoImage),
+                          fit: BoxFit.cover,
+                          colorFilter: ColorFilter.mode(
+                            Colors.black.withOpacity(0.2),
+                            BlendMode.darken,
                           ),
-                        ],
+                        ),
                       ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(12),
-                            decoration: BoxDecoration(
-                              color: _primaryColor.withOpacity(0.1),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: const Icon(
-                              Icons.psychology,
-                              color: _primaryColor,
-                              size: 28,
-                            ),
-                          ),
-                          const SizedBox(width: 16),
-                          Expanded(
-                            child: Text(
-                              controller.manifesto,
-                              style: const TextStyle(
-                                fontSize: _bodySize,
-                                height: 1.6,
-                                color: _textMuted,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    const SizedBox(height: 28),
-
-                    // MISIÓN & VISIÓN
-                    ...controller.cards.map((card) {
-                      return Container(
-                        margin: const EdgeInsets.only(bottom: 16),
-                        padding: const EdgeInsets.all(24),
+                      child: Container(
+                        padding: const EdgeInsets.all(16), // Reducido de 20
                         decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              card['color'].withOpacity(0.1),
-                              card['color'].withOpacity(0.05),
-                            ],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                          borderRadius: BorderRadius.circular(24),
-                          border: Border.all(
-                            color: card['color'].withOpacity(0.3),
-                            width: 1.5,
-                          ),
+                          color: Colors.white.withOpacity(0.85),
+                          borderRadius: BorderRadius.circular(20),
                         ),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                              padding: const EdgeInsets.all(14),
+                              padding: const EdgeInsets.all(10), // Reducido de 12
                               decoration: BoxDecoration(
-                                color: card['color'],
-                                borderRadius: BorderRadius.circular(16),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: card['color'].withOpacity(0.4),
-                                    blurRadius: 12,
-                                    offset: const Offset(0, 4),
-                                  ),
-                                ],
+                                color: _primaryColor.withOpacity(0.1),
+                                borderRadius: BorderRadius.circular(12),
                               ),
-                              child: Icon(
-                                card['icon'],
-                                color: Colors.white,
-                                size: 28,
+                              child: const Icon(
+                                Icons.psychology,
+                                color: _primaryColor,
+                                size: 22, // Reducido de 24
                               ),
                             ),
-                            const SizedBox(width: 16),
+                            const SizedBox(width: 14), // Reducido de 16
                             Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    card['title'],
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      color: card['color'],
-                                    ),
-                                  ),
-                                  const SizedBox(height: 8),
-                                  Text(
-                                    card['text'],
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      color: _textMuted,
-                                      height: 1.5,
-                                    ),
-                                  ),
-                                ],
+                              child: Text(
+                                controller.manifesto,
+                                style: const TextStyle(
+                                  fontSize: 14, // Reducido de _bodySize (15)
+                                  height: 1.5, // Reducido de 1.6
+                                  color: _textMuted,
+                                ),
                               ),
                             ),
                           ],
                         ),
-                      );
-                    }).toList(),
-
-                    const SizedBox(height: 28),
-
-                    // VALORES
-                    Container(
-                      padding: const EdgeInsets.all(24),
-                      decoration: BoxDecoration(
-                        color: _cardColor,
-                        borderRadius: BorderRadius.circular(24),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.06),
-                            blurRadius: 20,
-                            offset: const Offset(0, 8),
-                          ),
-                        ],
                       ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                  color: _primaryColor.withOpacity(0.1),
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: const Icon(
-                                  Icons.stars,
-                                  color: _primaryColor,
-                                  size: 24,
-                                ),
-                              ),
-                              const SizedBox(width: 12),
-                              const Text(
-                                'Nuestros valores',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: _textPrimary,
-                                ),
+                    ),
+
+                    const SizedBox(height: 20), // Reducido de 24
+
+                    // MISIÓN & VISIÓN
+                    Column(
+                      children: controller.cards.map((card) {
+                        String image = card['image'] as String;
+                        Color color = card['color'] as Color;
+                        IconData icon = card['icon'] as IconData;
+                        
+                        return Container(
+                          margin: const EdgeInsets.only(bottom: 12), // Reducido de 16
+                          height: 140, // Reducido de 150
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(18), // Reducido de 20
+                            boxShadow: [
+                              BoxShadow(
+                                color: color.withOpacity(0.2),
+                                blurRadius: 10, // Reducido de 12
+                                offset: const Offset(0, 3), // Reducido de 4
                               ),
                             ],
                           ),
-                          const SizedBox(height: 20),
-                          Wrap(
-                            spacing: 12,
-                            runSpacing: 12,
-                            children: controller.values.map((value) {
-                              return Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 16,
-                                  vertical: 12,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: _primaryColor.withOpacity(0.08),
-                                  borderRadius: BorderRadius.circular(16),
-                                  border: Border.all(
-                                    color: _primaryColor.withOpacity(0.2),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(18), // Reducido de 20
+                            child: Stack(
+                              children: [
+                                // Imagen de fondo
+                                Positioned.fill(
+                                  child: _buildImage(
+                                    image,
+                                    fit: BoxFit.cover,
                                   ),
                                 ),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Icon(
-                                      value['icon'],
-                                      color: _primaryColor,
-                                      size: 18,
-                                    ),
-                                    const SizedBox(width: 8),
-                                    Text(
-                                      value['text'],
-                                      style: const TextStyle(
-                                        fontSize: 14,
-                                        color: _textPrimary,
-                                        fontWeight: FontWeight.w500,
+                                
+                                // Overlay de color
+                                Positioned.fill(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        begin: Alignment.topLeft,
+                                        end: Alignment.bottomRight,
+                                        colors: [
+                                          color.withOpacity(0.7),
+                                          color.withOpacity(0.9),
+                                        ],
                                       ),
                                     ),
-                                  ],
+                                  ),
                                 ),
-                              );
-                            }).toList(),
+                                
+                                // Contenido
+                                Padding(
+                                  padding: const EdgeInsets.all(14), // Reducido de 16
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        padding: const EdgeInsets.all(8), // Reducido de 10
+                                        decoration: BoxDecoration(
+                                          color: Colors.white.withOpacity(0.2),
+                                          borderRadius: BorderRadius.circular(10), // Reducido de 12
+                                          border: Border.all(
+                                            color: Colors.white.withOpacity(0.3),
+                                          ),
+                                        ),
+                                        child: Icon(
+                                          icon,
+                                          color: Colors.white,
+                                          size: 20, // Reducido de 22
+                                        ),
+                                      ),
+                                      const SizedBox(width: 10), // Reducido de 12
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              card['title'],
+                                              style: const TextStyle(
+                                                fontSize: 15, // Reducido de 16
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                            const SizedBox(height: 4), // Reducido de 6
+                                            Text(
+                                              card['text'],
+                                              style: TextStyle(
+                                                fontSize: 12, // Reducido de 13
+                                                color: Colors.white.withOpacity(0.95),
+                                                height: 1.3, // Reducido de 1.4
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        ],
-                      ),
+                        );
+                      }).toList(),
                     ),
 
-                    const SizedBox(height: 28),
+                    const SizedBox(height: 20), // Reducido de 24
 
-                    // EXPERIENCIA
+                    // VALORES - CON FONDO DE IMAGEN
                     Container(
-                      padding: const EdgeInsets.all(32),
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [_primaryColor, _primaryDark],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
-                        borderRadius: BorderRadius.circular(28),
-                        boxShadow: [
-                          BoxShadow(
-                            color: _primaryColor.withOpacity(0.4),
-                            blurRadius: 25,
-                            offset: const Offset(0, 12),
-                          ),
-                        ],
+                      constraints: BoxConstraints(
+                        minHeight: 240, // Reducido de 280
                       ),
-                      child: Column(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(16),
-                            decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.2),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: const Icon(
-                              Icons.workspace_premium,
-                              color: Colors.white,
-                              size: 48,
-                            ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(18), // Reducido de 20
+                        image: DecorationImage(
+                          image: AssetImage(AboutImages.valuesBgImage),
+                          fit: BoxFit.cover,
+                          colorFilter: ColorFilter.mode(
+                            Colors.black.withOpacity(0.1),
+                            BlendMode.darken,
                           ),
-                          const SizedBox(height: 16),
-                          Text(
-                            controller.experienceYears,
-                            style: const TextStyle(
-                              fontSize: 52,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                        ),
+                      ),
+                      child: Container(
+                        padding: const EdgeInsets.all(16), // Reducido de 20
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.85),
+                          borderRadius: BorderRadius.circular(18), // Reducido de 20
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.all(8), // Reducido de 10
+                                  decoration: BoxDecoration(
+                                    color: _primaryColor.withOpacity(0.1),
+                                    borderRadius: BorderRadius.circular(10), // Reducido de 12
+                                  ),
+                                  child: const Icon(
+                                    Icons.stars,
+                                    color: _primaryColor,
+                                    size: 20, // Reducido de 22
+                                  ),
+                                ),
+                                const SizedBox(width: 10), // Reducido de 12
+                                const Text(
+                                  'Nuestros valores',
+                                  style: TextStyle(
+                                    fontSize: 17, // Reducido de 18
+                                    fontWeight: FontWeight.bold,
+                                    color: _textPrimary,
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            controller.experienceText,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.white.withOpacity(0.95),
-                              height: 1.4,
+                            const SizedBox(height: 16), // Reducido de 20
+                            Wrap(
+                              spacing: 8, // Reducido de 10
+                              runSpacing: 8, // Reducido de 10
+                              children: controller.values.map((value) {
+                                return Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 12, // Reducido de 14
+                                    vertical: 8, // Reducido de 10
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white.withOpacity(0.95),
+                                    borderRadius: BorderRadius.circular(12), // Reducido de 14
+                                    border: Border.all(
+                                      color: _primaryColor.withOpacity(0.3),
+                                    ),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.05),
+                                        blurRadius: 6, // Reducido de 8
+                                        offset: const Offset(0, 3), // Reducido de 4
+                                      ),
+                                    ],
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(
+                                        value['icon'],
+                                        color: _primaryColor,
+                                        size: 15, // Reducido de 16
+                                      ),
+                                      const SizedBox(width: 6), // Reducido de 8
+                                      Text(
+                                        value['text'],
+                                        style: const TextStyle(
+                                          fontSize: 12, // Reducido de 13
+                                          color: _textPrimary,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }).toList(),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
+
+                    const SizedBox(height: 20), // Reducido de 24
+
+                    // EXPERIENCIA - CON FONDO DE IMAGEN
+                    Container(
+                      constraints: BoxConstraints(
+                        minHeight: 180, // Reducido de 220
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(18), // Reducido de 20
+                        image: DecorationImage(
+                          image: AssetImage(AboutImages.experienceImage),
+                          fit: BoxFit.cover,
+                          colorFilter: ColorFilter.mode(
+                            Colors.black.withOpacity(0.3),
+                            BlendMode.darken,
+                          ),
+                        ),
+                      ),
+                      child: Container(
+                        padding: const EdgeInsets.all(20), // Reducido de 24
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(18), // Reducido de 20
+                          gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              _primaryColor.withOpacity(0.8),
+                              _primaryDark.withOpacity(0.9),
+                            ],
+                          ),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(12), // Reducido de 14
+                              decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.2),
+                                borderRadius: BorderRadius.circular(16), // Reducido de 18
+                              ),
+                              child: const Icon(
+                                Icons.workspace_premium,
+                                color: Colors.white,
+                                size: 36, // Reducido de 40
+                              ),
+                            ),
+                            const SizedBox(height: 14), // Reducido de 16
+                            Text(
+                              controller.experienceYears,
+                              style: const TextStyle(
+                                fontSize: 38, // Reducido de 42
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                            const SizedBox(height: 6), // Reducido de 8
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 8), // Añadido padding horizontal
+                              child: Text(
+                                controller.experienceText,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 14, // Reducido de 15
+                                  color: Colors.white.withOpacity(0.95),
+                                  height: 1.3, // Reducido de 1.4
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    
+                    const SizedBox(height: 30), // Reducido de 40
                   ],
                 ),
               ),

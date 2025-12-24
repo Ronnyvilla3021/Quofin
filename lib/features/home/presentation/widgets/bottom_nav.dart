@@ -8,8 +8,8 @@ class BottomNav extends StatelessWidget {
     final currentRoute = ModalRoute.of(context)?.settings.name;
 
     return Container(
-      margin: const EdgeInsets.fromLTRB(16, 0, 16, 14),
-      padding: const EdgeInsets.symmetric(vertical: 14),
+      margin: const EdgeInsets.fromLTRB(12, 0, 12, 50), // Aumentado de 14 a 90 (≈3cm)
+      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
       decoration: BoxDecoration(
         color: Colors.white.withOpacity(.95),
         borderRadius: BorderRadius.circular(30),
@@ -22,7 +22,7 @@ class BottomNav extends StatelessWidget {
         ],
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           _NavItem(
             icon: Icons.home,
@@ -32,18 +32,32 @@ class BottomNav extends StatelessWidget {
             onTap: () => Navigator.pushReplacementNamed(context, '/'),
           ),
           _NavItem(
-            icon: Icons.work_outline,
-            label: 'Servicios',
-            route: '/services',
-            currentRoute: currentRoute,
-            onTap: () => Navigator.pushReplacementNamed(context, '/services'),
-          ),
-          _NavItem(
             icon: Icons.groups_outlined,
             label: 'Nosotros',
             route: '/about',
             currentRoute: currentRoute,
             onTap: () => Navigator.pushReplacementNamed(context, '/about'),
+          ),
+          _NavItem(
+            icon: Icons.analytics_outlined,
+            label: 'CRM',
+            route: '/crm',
+            currentRoute: currentRoute,
+            onTap: () => Navigator.pushReplacementNamed(context, '/crm'),
+          ),
+          _NavItem(
+            icon: Icons.receipt_long_outlined,
+            label: 'Comprobantes',
+            route: '/comprobantes',
+            currentRoute: currentRoute,
+            onTap: () => Navigator.pushReplacementNamed(context, '/comprobantes'),
+          ),
+          _NavItem(
+            icon: Icons.bolt_outlined,
+            label: 'Perseo',
+            route: '/perseo',
+            currentRoute: currentRoute,
+            onTap: () => Navigator.pushReplacementNamed(context, '/perseo'),
           ),
           _NavItem(
             icon: Icons.call_outlined,
@@ -78,29 +92,35 @@ class _NavItem extends StatelessWidget {
     final active = currentRoute == route;
     final color = active ? Colors.green : Colors.grey;
 
-    return GestureDetector(
-      onTap: onTap,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        decoration: BoxDecoration(
-          color: active ? Colors.green.withOpacity(.15) : Colors.transparent,
-          borderRadius: BorderRadius.circular(18),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(icon, color: color, size: 22),
-            const SizedBox(height: 4),
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 11,
-                color: color,
-                fontWeight: active ? FontWeight.w600 : FontWeight.normal,
+    return Expanded(
+      child: GestureDetector(
+        onTap: onTap,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          margin: const EdgeInsets.symmetric(horizontal: 2),
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+          decoration: BoxDecoration(
+            color: active ? Colors.green.withOpacity(.15) : Colors.transparent,
+            borderRadius: BorderRadius.circular(18),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(icon, color: color, size: 22),
+              const SizedBox(height: 4),
+              Text(
+                label,
+                style: TextStyle(
+                  fontSize: 9,
+                  color: color,
+                  fontWeight: active ? FontWeight.w600 : FontWeight.normal,
+                ),
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
