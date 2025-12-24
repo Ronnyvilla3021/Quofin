@@ -1,181 +1,172 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../home/presentation/widgets/bottom_nav.dart';
 
 // =======================
-// 🎨 ESTILOS MEJORADOS
+// 🎨 ESTILOS
 // =======================
 
 const Color _bgColor = Color(0xFFF8FAFC);
 const Color _primaryColor = Color(0xFF22C55E);
-
 const EdgeInsets _pagePadding = EdgeInsets.all(20);
 
 // =======================
-// 🖼️ IMÁGENES LOCALES - RUTAS FIJAS
+// 🖼️ IMÁGENES
 // =======================
-class AboutImages {
-  // Imágenes de about
-  static const String heroBackground = 'assets/images/about/about1.jpg';
-  static const String missionImage = 'assets/images/about/about2.png';
-  static const String visionImage = 'assets/images/about/about3.jpg';
-  static const String experienceImage = 'assets/images/about/about5.jpg';
 
-  // Imágenes adicionales para las otras secciones
-  static const String manifestoImage = 'assets/images/about/about4.jpg';
-  static const String valuesBgImage = 'assets/images/about/about3.jpg';
+class ContactImages {
+  static const String heroBackground = 'assets/images/contact/contact1.jpg';
+  static const String whatsappImage = 'assets/images/contact/contact2.jpg';
+  static const String phoneImage = 'assets/images/contact/contact3.jpg';
+  static const String emailImage = 'assets/images/contact/contact4.jpg';
+  static const String locationImage = 'assets/images/contact/contact5.jpg';
+  static const String socialImage = 'assets/images/contact/contact2.jpg';
 }
 
 // =======================
-// 🧠 LÓGICA / ESTADO
+// 🧠 CONTROLLER
 // =======================
 
-class AboutController {
-  String get heroTitle => 'Más que contadores,\nsomos aliados de tu crecimiento';
+class ContactController {
+  String get title => 'Conectemos';
+  String get subtitle =>
+      'Estamos listos para ayudarte de forma clara y profesional';
 
-  String get manifesto =>
-      'No creemos en la contabilidad fría ni complicada. Creemos en claridad, orden y tranquilidad. Acompañamos a personas y empresas a tomar decisiones financieras con confianza.';
+  String get address => 'Mariano Echeverría y San Francisco (Matriz)';
+  String get mapsUrl => 'https://maps.app.goo.gl/j7WaFYy5XSoAvV6j7';
 
-  List<Map<String, dynamic>> get cards => [
-        {
-          'icon': Icons.track_changes,
-          'title': 'Nuestra misión',
-          'text': 'Convertir la contabilidad en una herramienta clara, útil y comprensible.',
-          'color': const Color(0xFF3B82F6),
-          'image': AboutImages.missionImage,
-        },
-        {
-          'icon': Icons.visibility,
-          'title': 'Nuestra visión',
-          'text': 'Ser la firma contable que se recomienda por cercanía y resultados reales.',
-          'color': const Color(0xFF8B5CF6),
-          'image': AboutImages.visionImage,
-        },
-      ];
+  List<Map<String, dynamic>> get actions => [
+    {
+      'title': 'WhatsApp General',
+      'subtitle': 'Asesoría rápida y directa',
+      'icon': Icons.chat,
+      'url': 'https://wa.me/593980030415',
+      'color': const Color(0xFF25D366),
+      'image': ContactImages.whatsappImage,
+    },
+    {
+      'title': 'Matriz',
+      'subtitle': '09 8003 0415',
+      'icon': Icons.phone,
+      'url': 'tel:+593980030415',
+      'color': const Color(0xFF3B82F6),
+      'image': ContactImages.phoneImage,
+    },
+    {
+      'title': 'Email',
+      'subtitle': 'sac@qofin.com',
+      'icon': Icons.email,
+      'url': 'mailto:sac@qofin.com',
+      'color': const Color(0xFFEF4444),
+      'image': ContactImages.emailImage,
+    },
+  ];
 
-  List<Map<String, dynamic>> get values => [
-        {'icon': Icons.verified_user, 'text': 'Responsabilidad'},
-        {'icon': Icons.handshake, 'text': 'Compromiso'},
-        {'icon': Icons.lightbulb_outline, 'text': 'Transparencia'},
-        {'icon': Icons.groups, 'text': 'Trabajo en equipo'},
-        {'icon': Icons.favorite_border, 'text': 'Confianza'},
-      ];
-
-  String get experienceYears => '16+';
-  String get experienceText => 'Años acompañando negocios, emprendedores y profesionales';
+  List<Map<String, dynamic>> get socials => [
+    {
+      'label': 'Instagram',
+      'icon': Icons.camera_alt,
+      'url': 'https://www.instagram.com/qofinec/',
+      'color': const Color(0xFFE1306C),
+    },
+    {
+      'label': 'Facebook',
+      'icon': Icons.facebook,
+      'url': 'https://www.facebook.com/QOFINEC',
+      'color': const Color(0xFF1877F2),
+    },
+  ];
 }
 
 // =======================
-// 🧱 UI MEJORADO
+// 🧱 UI
 // =======================
 
-class AboutPage extends StatelessWidget {
-  const AboutPage({super.key});
+class ContactPage extends StatelessWidget {
+  const ContactPage({super.key});
 
-  // Método auxiliar para cargar imágenes con manejo de errores
-  Widget _buildImage(String assetPath, {BoxFit fit = BoxFit.cover}) {
+  Future<void> _open(String url) async {
+    final uri = Uri.parse(url);
+    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+      throw 'No se pudo abrir $url';
+    }
+  }
+
+  Widget _buildImage(String asset, {BoxFit fit = BoxFit.cover}) {
     return Image.asset(
-      assetPath,
+      asset,
       fit: fit,
-      errorBuilder: (context, error, stackTrace) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          debugPrint('Error loading image: $assetPath');
-        });
-
-        return Container(
-          color: const Color(0xFF22C55E).withValues(alpha: 0.1),
-          child: const Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.image,
-                  color: Color(0xFF22C55E),
-                  size: 40,
-                ),
-                SizedBox(height: 8),
-                Text(
-                  'Imagen no encontrada',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Color(0xFF22C55E),
-                  ),
-                ),
-              ],
+      errorBuilder:
+          (_, __, ___) => Container(
+            color: _primaryColor.withValues(alpha: 0.1),
+            child: const Center(
+              child: Icon(Icons.image, color: _primaryColor, size: 40),
             ),
           ),
-        );
-      },
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final controller = AboutController();
+    final controller = ContactController();
 
     return Scaffold(
       backgroundColor: _bgColor,
+      bottomNavigationBar: const BottomNav(),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.only(bottom: 100),
           child: Column(
             children: [
-              // HEADER CON IMAGEN Y GRADIENTE
+              // =======================
+              // HEADER
+              // =======================
               SizedBox(
                 height: 280,
                 child: Stack(
+                  fit: StackFit.expand,
                   children: [
-                    // Imagen de fondo LOCAL
-                    Positioned.fill(
-                      child: _buildImage(AboutImages.heroBackground),
-                    ),
-                    // Gradiente overlay
+                    _buildImage(ContactImages.heroBackground),
                     Container(
-                      height: 280,
                       decoration: const BoxDecoration(
                         gradient: LinearGradient(
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                           colors: [
-                            Color.fromRGBO(0, 0, 0, 0.3),
-                            Color.fromRGBO(0, 0, 0, 0.7),
+                            Color.fromARGB(60, 0, 0, 0),
+                            Color.fromARGB(160, 0, 0, 0),
                           ],
                         ),
                       ),
                     ),
-                    // Contenido sobre la imagen
-                    Positioned(
-                      bottom: 30,
-                      left: 20,
-                      right: 20,
+                    Center(
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
                         children: [
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 12,
-                              vertical: 6,
-                            ),
-                            decoration: BoxDecoration(
-                              color: _primaryColor,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: const Text(
-                              'Sobre Nosotros',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
+                          const Icon(
+                            Icons.forum,
+                            color: Colors.white,
+                            size: 48,
                           ),
-                          const SizedBox(height: 12),
+                          const SizedBox(height: 16),
                           Text(
-                            controller.heroTitle,
+                            controller.title,
                             style: const TextStyle(
-                              fontSize: 28,
+                              fontSize: 26,
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
-                              height: 1.3,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 24),
+                            child: Text(
+                              controller.subtitle,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                color: Colors.white70,
+                                fontSize: 15,
+                              ),
                             ),
                           ),
                         ],
@@ -190,335 +181,304 @@ class AboutPage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 24),
-
-                    // MANIFIESTO - CON FONDO DE IMAGEN
-                    Container(
-                      height: 180,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        image: DecorationImage(
-                          image: AssetImage(AboutImages.manifestoImage),
-                          fit: BoxFit.cover,
-                          colorFilter: const ColorFilter.mode(
-                            Color.fromRGBO(0, 0, 0, 0.2),
-                            BlendMode.darken,
-                          ),
-                        ),
+                    const Text(
+                      'Formas de contacto',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
                       ),
-                      child: Container(
-                        padding: const EdgeInsets.all(16),
+                    ),
+                    const SizedBox(height: 16),
+
+                    // =======================
+                    // CONTACTO
+                    // =======================
+                    ...controller.actions.map((action) {
+                      final color = action['color'] as Color;
+
+                      return Container(
+                        height: 140,
+                        margin: const EdgeInsets.only(bottom: 14),
                         decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.85),
                           borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                color: const Color(0xFF22C55E).withValues(alpha: 0.1),
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: const Icon(
-                                Icons.psychology,
-                                color: Color(0xFF22C55E),
-                                size: 22,
-                              ),
-                            ),
-                            const SizedBox(width: 14),
-                            Expanded(
-                              child: Text(
-                                controller.manifesto,
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  height: 1.5,
-                                  color: Color(0xFF64748B),
-                                ),
-                              ),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Color.fromARGB(26, 0, 0, 0),
+                              blurRadius: 12,
+                              offset: Offset(0, 6),
                             ),
                           ],
                         ),
-                      ),
-                    ),
-
-                    const SizedBox(height: 20),
-
-                    // MISIÓN & VISIÓN
-                    Column(
-                      children: controller.cards.map((card) {
-                        String image = card['image'] as String;
-                        Color color = card['color'] as Color;
-                        IconData icon = card['icon'] as IconData;
-
-                        return Container(
-                          margin: const EdgeInsets.only(bottom: 12),
-                          height: 140,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(18),
-                            boxShadow: [
-                              BoxShadow(
-                                color: color.withValues(alpha: 0.2),
-                                blurRadius: 10,
-                                offset: const Offset(0, 3),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: Stack(
+                            fit: StackFit.expand,
+                            children: [
+                              _buildImage(action['image']),
+                              Container(
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      color.withValues(alpha: 0.7),
+                                      color.withValues(alpha: 0.9),
+                                    ],
+                                  ),
+                                ),
                               ),
-                            ],
-                          ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(18),
-                            child: Stack(
-                              children: [
-                                // Imagen de fondo
-                                Positioned.fill(
-                                  child: _buildImage(
-                                    image,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-
-                                // Overlay de color
-                                Positioned.fill(
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      gradient: LinearGradient(
-                                        begin: Alignment.topLeft,
-                                        end: Alignment.bottomRight,
-                                        colors: [
-                                          color.withValues(alpha: 0.7),
-                                          color.withValues(alpha: 0.9),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-
-                                // Contenido
-                                Padding(
-                                  padding: const EdgeInsets.all(14),
+                              InkWell(
+                                onTap: () => _open(action['url']),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(16),
                                   child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Container(
-                                        padding: const EdgeInsets.all(8),
-                                        decoration: BoxDecoration(
-                                          color: Colors.white.withValues(alpha: 0.2),
-                                          borderRadius: BorderRadius.circular(10),
-                                          border: Border.all(
-                                            color: Colors.white.withValues(alpha: 0.3),
-                                          ),
-                                        ),
-                                        child: Icon(
-                                          icon,
-                                          color: Colors.white,
-                                          size: 20,
-                                        ),
+                                      Icon(
+                                        action['icon'],
+                                        color: Colors.white,
+                                        size: 28,
                                       ),
-                                      const SizedBox(width: 10),
+                                      const SizedBox(width: 16),
                                       Expanded(
                                         child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              card['title'] as String,
+                                              action['title'],
                                               style: const TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.bold,
                                                 color: Colors.white,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold,
                                               ),
                                             ),
                                             const SizedBox(height: 4),
                                             Text(
-                                              card['text'] as String,
+                                              action['subtitle'],
                                               style: const TextStyle(
-                                                fontSize: 12,
-                                                color: Color.fromRGBO(255, 255, 255, 0.95),
-                                                height: 1.3,
+                                                color: Colors.white70,
+                                                fontSize: 13,
                                               ),
                                             ),
                                           ],
                                         ),
                                       ),
+                                      const Icon(
+                                        Icons.arrow_forward_ios,
+                                        color: Colors.white70,
+                                        size: 18,
+                                      ),
                                     ],
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                        );
-                      }).toList(),
-                    ),
+                        ),
+                      );
+                    }),
 
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 24),
 
-                    // VALORES - CON FONDO DE IMAGEN
+                    // =======================
+                    // UBICACIÓN
+                    // =======================
                     Container(
-                      constraints: const BoxConstraints(
-                        minHeight: 240,
-                      ),
+                      height: 260,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(18),
-                        image: const DecorationImage(
-                          image: AssetImage(AboutImages.valuesBgImage),
-                          fit: BoxFit.cover,
-                          colorFilter: ColorFilter.mode(
-                            Color.fromRGBO(0, 0, 0, 0.1),
-                            BlendMode.darken,
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Color.fromARGB(20, 0, 0, 0),
+                            blurRadius: 12,
+                            offset: Offset(0, 6),
                           ),
-                        ),
+                        ],
                       ),
-                      child: Container(
-                        padding: const EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.85),
-                          borderRadius: BorderRadius.circular(18),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: Stack(
+                          fit: StackFit.expand,
                           children: [
-                            Row(
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.all(8),
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xFF22C55E).withValues(alpha: 0.1),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: const Icon(
-                                    Icons.stars,
-                                    color: Color(0xFF22C55E),
-                                    size: 20,
-                                  ),
+                            _buildImage(ContactImages.locationImage),
+                            Container(
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                  colors: [
+                                    Colors.white.withValues(alpha: 0.85),
+                                    Colors.white.withValues(alpha: 0.95),
+                                  ],
                                 ),
-                                const SizedBox(width: 10),
-                                const Text(
-                                  'Nuestros valores',
-                                  style: TextStyle(
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color(0xFF0F172A),
-                                  ),
-                                ),
-                              ],
+                              ),
                             ),
-                            const SizedBox(height: 16),
-                            Wrap(
-                              spacing: 8,
-                              runSpacing: 8,
-                              children: controller.values.map((value) {
-                                return Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 12,
-                                    vertical: 8,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white.withValues(alpha: 0.95),
-                                    borderRadius: BorderRadius.circular(12),
-                                    border: Border.all(
-                                      color: const Color(0xFF22C55E).withValues(alpha: 0.3),
-                                    ),
-                                    boxShadow: const [
-                                      BoxShadow(
-                                        color: Color.fromRGBO(0, 0, 0, 0.05),
-                                        blurRadius: 6,
-                                        offset: Offset(0, 3),
-                                      ),
-                                    ],
-                                  ),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
+                            Padding(
+                              padding: const EdgeInsets.all(20),
+                              child: Column(
+                                children: [
+                                  Row(
                                     children: [
-                                      Icon(
-                                        value['icon'] as IconData,
-                                        color: const Color(0xFF22C55E),
-                                        size: 15,
+                                      Container(
+                                        padding: const EdgeInsets.all(12),
+                                        decoration: BoxDecoration(
+                                          color: _primaryColor,
+                                          borderRadius: BorderRadius.circular(14),
+                                        ),
+                                        child: const Icon(
+                                          Icons.location_on,
+                                          color: Colors.white,
+                                        ),
                                       ),
-                                      const SizedBox(width: 6),
-                                      Text(
-                                        value['text'] as String,
-                                        style: const TextStyle(
-                                          fontSize: 12,
-                                          color: Color(0xFF0F172A),
-                                          fontWeight: FontWeight.w500,
+                                      const SizedBox(width: 12),
+                                      const Expanded(
+                                        child: Text(
+                                          'Nuestra ubicación',
+                                          style: TextStyle(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.bold,
+                                            color: Color(0xFF1E293B),
+                                          ),
                                         ),
                                       ),
                                     ],
                                   ),
-                                );
-                              }).toList(),
+                                  const SizedBox(height: 16),
+                                  Text(
+                                    controller.address,
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      color: Color(0xFF475569),
+                                      height: 1.5,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  const Spacer(),
+                                  SizedBox(
+                                    width: double.infinity,
+                                    child: ElevatedButton.icon(
+                                      onPressed: () => _open(controller.mapsUrl),
+                                      icon: const Icon(Icons.map),
+                                      label: const Text('Abrir en Google Maps'),
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: _primaryColor,
+                                        foregroundColor: Colors.white,
+                                        padding: const EdgeInsets.symmetric(
+                                          vertical: 14,
+                                        ),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(14),
+                                        ),
+                                        elevation: 0,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),
                       ),
                     ),
 
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 24),
 
-                    // EXPERIENCIA - CON FONDO DE IMAGEN
+                    // =======================
+                    // REDES SOCIALES
+                    // =======================
                     Container(
-                      constraints: const BoxConstraints(
-                        minHeight: 180,
-                      ),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(18),
-                        image: const DecorationImage(
-                          image: AssetImage(AboutImages.experienceImage),
-                          fit: BoxFit.cover,
-                          colorFilter: ColorFilter.mode(
-                            Color.fromRGBO(0, 0, 0, 0.3),
-                            BlendMode.darken,
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Color.fromARGB(20, 0, 0, 0),
+                            blurRadius: 12,
+                            offset: Offset(0, 6),
                           ),
-                        ),
+                        ],
                       ),
-                      child: Container(
-                        padding: const EdgeInsets.all(20),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(18),
-                          gradient: const LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: [
-                              Color.fromRGBO(34, 197, 94, 0.8),
-                              Color.fromRGBO(22, 163, 74, 0.9),
-                            ],
-                          ),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: Stack(
                           children: [
+                            _buildImage(ContactImages.socialImage, fit: BoxFit.cover),
                             Container(
-                              padding: const EdgeInsets.all(12),
                               decoration: BoxDecoration(
-                                color: Colors.white.withValues(alpha: 0.2),
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                              child: const Icon(
-                                Icons.workspace_premium,
-                                color: Colors.white,
-                                size: 36,
-                              ),
-                            ),
-                            const SizedBox(height: 14),
-                            Text(
-                              controller.experienceYears,
-                              style: const TextStyle(
-                                fontSize: 38,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
-                            ),
-                            const SizedBox(height: 6),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 8),
-                              child: Text(
-                                controller.experienceText,
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  color: Color.fromRGBO(255, 255, 255, 0.95),
-                                  height: 1.3,
+                                gradient: LinearGradient(
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                  colors: [
+                                    Colors.white.withValues(alpha: 0.88),
+                                    Colors.white.withValues(alpha: 0.95),
+                                  ],
                                 ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(20),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  const Text(
+                                    'Síguenos en redes',
+                                    style: TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color.fromARGB(255, 255, 255, 255),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 20),
+                                  Row(
+                                    children: controller.socials.map((social) {
+                                      final color = social['color'] as Color;
+                                      return Expanded(
+                                        child: Container(
+                                          margin: const EdgeInsets.symmetric(
+                                            horizontal: 6,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            gradient: LinearGradient(
+                                              colors: [
+                                                color.withValues(alpha: 0.7),
+                                                color.withValues(alpha: 0.9),
+                                              ],
+                                            ),
+                                            borderRadius: BorderRadius.circular(16),
+                                          ),
+                                          child: InkWell(
+                                            onTap: () => _open(social['url']),
+                                            borderRadius: BorderRadius.circular(16),
+                                            child: Padding(
+                                              padding: const EdgeInsets.symmetric(
+                                                vertical: 14,
+                                              ),
+                                              child: Column(
+                                                children: [
+                                                  Icon(
+                                                    social['icon'],
+                                                    color: Colors.white,
+                                                    size: 28,
+                                                  ),
+                                                  const SizedBox(height: 6),
+                                                  Text(
+                                                    social['label'],
+                                                    style: const TextStyle(
+                                                      color: Color.fromARGB(255, 255, 255, 255),
+                                                      fontSize: 12,
+                                                      fontWeight: FontWeight.w600,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    }).toList(),
+                                  ),
+                                ],
                               ),
                             ),
                           ],
@@ -534,7 +494,6 @@ class AboutPage extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: const BottomNav(),
     );
   }
 }
