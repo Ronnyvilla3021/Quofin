@@ -8,14 +8,14 @@ class BottomNav extends StatelessWidget {
     final currentRoute = ModalRoute.of(context)?.settings.name;
 
     return Container(
-      margin: const EdgeInsets.fromLTRB(12, 0, 12, 50), // Aumentado de 14 a 90 (≈3cm)
+      margin: const EdgeInsets.fromLTRB(12, 0, 12, 50),
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(.95),
+        color: Colors.white.withValues(alpha: 0.95),
         borderRadius: BorderRadius.circular(30),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(.15),
+            color: Colors.black.withValues(alpha: 0.15),
             blurRadius: 30,
             offset: const Offset(0, 10),
           ),
@@ -100,7 +100,7 @@ class _NavItem extends StatelessWidget {
           margin: const EdgeInsets.symmetric(horizontal: 2),
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
           decoration: BoxDecoration(
-            color: active ? Colors.green.withOpacity(.15) : Colors.transparent,
+            color: active ? Colors.green.withValues(alpha: 0.15) : Colors.transparent,
             borderRadius: BorderRadius.circular(18),
           ),
           child: Column(

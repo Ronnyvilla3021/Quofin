@@ -7,7 +7,6 @@ import 'package:flutter_application_1/features/home/presentation/pages/comproban
 import 'package:flutter_application_1/features/home/presentation/pages/perseo_page.dart';
 import 'package:flutter_application_1/features/home/presentation/pages/contact_page.dart';
 
-
 class AppRouter {
   static const home = '/';
   static const about = '/about';
@@ -32,9 +31,10 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const ContactPage());
       default:
         return MaterialPageRoute(
-          builder: (_) => const Scaffold(
-            body: Center(child: Text('Ruta no encontrada')),
-          ),
+          builder:
+              (_) => const Scaffold(
+                body: Center(child: Text('Ruta no encontrada')),
+              ),
         );
     }
   }

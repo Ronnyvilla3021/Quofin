@@ -16,21 +16,12 @@ const EdgeInsets _pagePadding = EdgeInsets.all(20);
 // 🖼️ IMÁGENES LOCALES
 // =======================
 class AppImages {
-  // Logo
   static const String logo = 'assets/images/home/logo.jpg';
-  
-  // Hero: Imagen de fondo profesional
   static const String heroBackground = 'assets/images/home/home1.jpeg';
-  
-  // Servicios
   static const String advisoryImage = 'assets/images/home/home2.jpeg';
   static const String taxImage = 'assets/images/home/home3.jpeg';
   static const String custodyImage = 'assets/images/home/home4.jpeg';
-  
-  // Estadísticas
   static const String statsPattern = 'assets/images/home/home5.jpeg';
-  
-  // Cita
   static const String quoteAuthorImage = 'assets/images/home/home6.jpeg';
 }
 
@@ -82,13 +73,12 @@ class HomeController {
     {'value': '\$200K+', 'label': 'Recursos\nrecuperados', 'icon': '💰'},
   ];
   
-  // Método para abrir la página web
   Future<void> launchWebsite() async {
     final Uri url = Uri.parse('https://qofin.com');
     
     if (!await launchUrl(
       url,
-      mode: LaunchMode.externalApplication, // Abre en navegador externo
+      mode: LaunchMode.externalApplication,
     )) {
       throw Exception('No se pudo abrir $url');
     }
@@ -102,19 +92,12 @@ class HomeController {
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
-  // Helper method para obtener colores con opacidad
-  Color _colorWithOpacity(Color color, int alpha) {
-    return Color.fromARGB(alpha, color.red, color.green, color.blue);
-  }
-
-  // Widget para cargar imágenes con placeholder
   Widget _buildImage(String assetPath, {BoxFit fit = BoxFit.cover, double opacity = 0.4}) {
     return Image.asset(
       assetPath,
       fit: fit,
-      color: const Color.fromARGB(102, 0, 0, 0), // 0.4 opacity
+      color: const Color.fromRGBO(0, 0, 0, 0.4),
       colorBlendMode: BlendMode.darken,
-      // Añade un placeholder o manejo de error
       errorBuilder: (context, error, stackTrace) {
         return Container(
           color: Colors.grey[200],
@@ -138,11 +121,10 @@ class HomePage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               // 1. HERO SECTION CON IMAGEN DE FONDO
-              Container(
+              SizedBox(
                 height: 500,
                 child: Stack(
                   children: [
-                    // Fondo con imagen LOCAL
                     Positioned.fill(
                       child: _buildImage(
                         AppImages.heroBackground,
@@ -150,12 +132,10 @@ class HomePage extends StatelessWidget {
                       ),
                     ),
                     
-                    // Contenido
                     Padding(
                       padding: const EdgeInsets.all(20),
                       child: Column(
                         children: [
-                          // Header
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -168,22 +148,21 @@ class HomePage extends StatelessWidget {
                                   letterSpacing: 1.2,
                                   shadows: [
                                     Shadow(
-                                      color: Color.fromARGB(128, 0, 0, 0), // 0.5 opacity
+                                      color: Color.fromRGBO(0, 0, 0, 0.5),
                                       blurRadius: 4,
                                       offset: Offset(1, 1),
                                     )
                                   ],
                                 ),
                               ),
-                              // LOGO en lugar del icono de notificaciones
                               Container(
                                 width: 40,
                                 height: 40,
                                 decoration: BoxDecoration(
-                                  color: const Color.fromARGB(51, 255, 255, 255), // 0.2 opacity
+                                  color: Colors.white.withValues(alpha: 0.2),
                                   borderRadius: BorderRadius.circular(12),
                                   border: Border.all(
-                                    color: const Color.fromARGB(77, 255, 255, 255), // 0.3 opacity
+                                    color: Colors.white.withValues(alpha: 0.3),
                                     width: 1.5,
                                   ),
                                 ),
@@ -209,15 +188,14 @@ class HomePage extends StatelessWidget {
                           
                           const Spacer(),
                           
-                          // Card del hero
                           Container(
                             padding: const EdgeInsets.all(28),
                             decoration: BoxDecoration(
-                              color: const Color.fromARGB(235, 255, 255, 255), // 0.92 opacity
+                              color: Colors.white.withValues(alpha: 0.92),
                               borderRadius: BorderRadius.circular(28),
                               boxShadow: const [
                                 BoxShadow(
-                                  color: Color.fromARGB(51, 0, 0, 0), // 0.2 opacity
+                                  color: Color.fromRGBO(0, 0, 0, 0.2),
                                   blurRadius: 30,
                                   offset: Offset(0, 15),
                                 ),
@@ -229,9 +207,9 @@ class HomePage extends StatelessWidget {
                                   'Expertos en\nAsesoría Financiera',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                    fontSize: 28, // _titleSize
+                                    fontSize: 28,
                                     fontWeight: FontWeight.bold,
-                                    color: Color(0xFF0F172A), // _textPrimary
+                                    color: Color(0xFF0F172A),
                                     height: 1.3,
                                   ),
                                 ),
@@ -242,15 +220,14 @@ class HomePage extends StatelessWidget {
                                   'Más de 16 años impulsando el crecimiento de negocios y personas',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                    fontSize: 15, // _bodySize
-                                    color: Color(0xFF64748B), // _textMuted
+                                    fontSize: 15,
+                                    color: Color(0xFF64748B),
                                     height: 1.5,
                                   ),
                                 ),
                                 
                                 const SizedBox(height: 24),
                                 
-                                // BOTÓN MODIFICADO
                                 ElevatedButton(
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: _primaryColor,
@@ -268,7 +245,6 @@ class HomePage extends StatelessWidget {
                                     try {
                                       await controller.launchWebsite();
                                     } catch (e) {
-                                      // Manejo de error opcional
                                       if (context.mounted) {
                                         ScaffoldMessenger.of(context).showSnackBar(
                                           SnackBar(
@@ -318,15 +294,15 @@ class HomePage extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF0F172A), // _textPrimary
+                        color: Color(0xFF0F172A),
                       ),
                     ),
                     const SizedBox(height: 6),
                     const Text(
                       'Servicios diseñados para tu éxito',
                       style: TextStyle(
-                        fontSize: 15, // _bodySize
-                        color: Color(0xFF64748B), // _textMuted
+                        fontSize: 15,
+                        color: Color(0xFF64748B),
                       ),
                     ),
                     const SizedBox(height: 20),
@@ -336,14 +312,6 @@ class HomePage extends StatelessWidget {
                       String image = service['image'] as String;
                       IconData icon = service['icon'] as IconData;
                       
-                      // Precalcular colores con opacidad
-                      final color0 = gradient[0];
-                      final color1 = gradient[1];
-                      final color0WithOpacity30 = _colorWithOpacity(color0, 77);
-                      final color0WithOpacity70 = _colorWithOpacity(color0, 179);
-                      final color0WithOpacity80 = _colorWithOpacity(color0, 204);
-                      final color1WithOpacity90 = _colorWithOpacity(color1, 230);
-                      
                       return Container(
                         margin: const EdgeInsets.only(bottom: 16),
                         height: 180,
@@ -351,7 +319,7 @@ class HomePage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(24),
                           boxShadow: [
                             BoxShadow(
-                              color: color0WithOpacity30,
+                              color: gradient[0].withValues(alpha: 0.3),
                               blurRadius: 20,
                               offset: const Offset(0, 10),
                             ),
@@ -361,22 +329,20 @@ class HomePage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(24),
                           child: Stack(
                             children: [
-                              // Imagen de fondo LOCAL
                               Positioned.fill(
                                 child: Image.asset(
                                   image,
                                   fit: BoxFit.cover,
-                                  color: color0WithOpacity70,
+                                  color: gradient[0].withValues(alpha: 0.7),
                                   colorBlendMode: BlendMode.color,
                                   errorBuilder: (context, error, stackTrace) {
                                     return Container(
-                                      color: color0,
+                                      color: gradient[0],
                                     );
                                   },
                                 ),
                               ),
                               
-                              // Gradiente
                               Positioned.fill(
                                 child: Container(
                                   decoration: BoxDecoration(
@@ -384,15 +350,14 @@ class HomePage extends StatelessWidget {
                                       begin: Alignment.topLeft,
                                       end: Alignment.bottomRight,
                                       colors: [
-                                        color0WithOpacity80,
-                                        color1WithOpacity90,
+                                        gradient[0].withValues(alpha: 0.8),
+                                        gradient[1].withValues(alpha: 0.9),
                                       ],
                                     ),
                                   ),
                                 ),
                               ),
                               
-                              // Contenido
                               Material(
                                 color: Colors.transparent,
                                 child: InkWell(
@@ -404,7 +369,7 @@ class HomePage extends StatelessWidget {
                                         Container(
                                           padding: const EdgeInsets.all(14),
                                           decoration: BoxDecoration(
-                                            color: const Color.fromARGB(51, 255, 255, 255), // 0.2 opacity
+                                            color: Colors.white.withValues(alpha: 0.2),
                                             borderRadius: BorderRadius.circular(16),
                                           ),
                                           child: Icon(
@@ -432,7 +397,7 @@ class HomePage extends StatelessWidget {
                                                 service['description'] as String,
                                                 style: const TextStyle(
                                                   fontSize: 14,
-                                                  color: Color.fromARGB(230, 255, 255, 255), // 0.9 opacity
+                                                  color: Color.fromRGBO(255, 255, 255, 0.9),
                                                 ),
                                               ),
                                             ],
@@ -440,7 +405,7 @@ class HomePage extends StatelessWidget {
                                         ),
                                         Icon(
                                           Icons.arrow_forward_ios,
-                                          color: Colors.white.withOpacity(0.8),
+                                          color: Colors.white.withValues(alpha: 0.8),
                                           size: 18,
                                         ),
                                       ],
@@ -467,12 +432,12 @@ class HomePage extends StatelessWidget {
                     color: _cardColor,
                     borderRadius: BorderRadius.circular(24),
                     border: Border.all(
-                      color: const Color.fromARGB(51, 34, 197, 94), // 0.2 opacity
+                      color: const Color(0xFF22C55E).withValues(alpha: 0.2),
                       width: 2,
                     ),
                     boxShadow: const [
                       BoxShadow(
-                        color: Color.fromARGB(15, 0, 0, 0), // 0.06 opacity
+                        color: Color.fromRGBO(0, 0, 0, 0.06),
                         blurRadius: 20,
                         offset: Offset(0, 8),
                       ),
@@ -480,8 +445,7 @@ class HomePage extends StatelessWidget {
                   ),
                   child: Row(
                     children: [
-                      // Imagen del autor LOCAL
-                      Container(
+                      SizedBox(
                         width: 120,
                         height: 200,
                         child: ClipRRect(
@@ -494,11 +458,11 @@ class HomePage extends StatelessWidget {
                             fit: BoxFit.cover,
                             errorBuilder: (context, error, stackTrace) {
                               return Container(
-                                color: const Color.fromARGB(26, 34, 197, 94), // 0.1 opacity
+                                color: const Color(0xFF22C55E).withValues(alpha: 0.1),
                                 child: const Center(
                                   child: Icon(
                                     Icons.person,
-                                    color: Color(0xFF22C55E), // _primaryColor
+                                    color: Color(0xFF22C55E),
                                     size: 40,
                                   ),
                                 ),
@@ -508,7 +472,6 @@ class HomePage extends StatelessWidget {
                         ),
                       ),
                       
-                      // Contenido
                       Expanded(
                         child: Padding(
                           padding: const EdgeInsets.all(24),
@@ -516,7 +479,7 @@ class HomePage extends StatelessWidget {
                             children: [
                               const Icon(
                                 Icons.format_quote,
-                                color: Color(0xFF22C55E), // _primaryColor
+                                color: Color(0xFF22C55E),
                                 size: 40,
                               ),
                               const SizedBox(height: 12),
@@ -526,7 +489,7 @@ class HomePage extends StatelessWidget {
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontStyle: FontStyle.italic,
-                                  color: Color(0xFF0F172A), // _textPrimary
+                                  color: Color(0xFF0F172A),
                                   height: 1.5,
                                 ),
                               ),
@@ -536,7 +499,7 @@ class HomePage extends StatelessWidget {
                                 style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
-                                  color: Color(0xFF22C55E), // _primaryColor
+                                  color: Color(0xFF22C55E),
                                 ),
                               ),
                             ],
@@ -561,7 +524,7 @@ class HomePage extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF0F172A), // _textPrimary
+                        color: Color(0xFF0F172A),
                       ),
                     ),
                     const SizedBox(height: 20),
@@ -571,7 +534,7 @@ class HomePage extends StatelessWidget {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(24),
                         image: const DecorationImage(
-                          image: AssetImage(AppImages.statsPattern), // LOCAL
+                          image: AssetImage(AppImages.statsPattern),
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -579,7 +542,6 @@ class HomePage extends StatelessWidget {
                         opacity: 0.9,
                         child: Column(
                           children: [
-                            // PRIMERA FILA (2 elementos)
                             Row(
                               children: [
                                 Expanded(
@@ -601,7 +563,6 @@ class HomePage extends StatelessWidget {
                             ),
                             SizedBox(height: 16),
                             
-                            // SEGUNDA FILA (2 elementos)
                             Row(
                               children: [
                                 Expanded(
@@ -628,7 +589,7 @@ class HomePage extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(height: 100), // Espacio para el bottom nav
+              const SizedBox(height: 100),
             ],
           ),
         ),
@@ -638,7 +599,6 @@ class HomePage extends StatelessWidget {
   }
 }
 
-// Widget separado para las tarjetas de estadísticas
 class _StatCard extends StatelessWidget {
   final String value;
   final String label;
@@ -655,11 +615,11 @@ class _StatCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: const Color.fromARGB(218, 255, 255, 255), // 0.85 opacity
+        color: Colors.white.withValues(alpha: 0.85),
         borderRadius: BorderRadius.circular(20),
         boxShadow: const [
           BoxShadow(
-            color: Color.fromARGB(15, 0, 0, 0), // 0.06 opacity
+            color: Color.fromRGBO(0, 0, 0, 0.06),
             blurRadius: 15,
             offset: Offset(0, 6),
           ),
@@ -678,7 +638,7 @@ class _StatCard extends StatelessWidget {
             style: const TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
-              color: Color(0xFF22C55E), // _primaryColor
+              color: Color(0xFF22C55E),
             ),
           ),
           const SizedBox(height: 6),
@@ -687,7 +647,7 @@ class _StatCard extends StatelessWidget {
             textAlign: TextAlign.center,
             style: const TextStyle(
               fontSize: 12,
-              color: Color(0xFF64748B), // _textMuted
+              color: Color(0xFF64748B),
               height: 1.3,
             ),
           ),

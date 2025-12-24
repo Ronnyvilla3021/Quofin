@@ -46,7 +46,7 @@ class _CRMPageState extends State<CRMPage> {
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: const Color(0xFF22C55E).withOpacity(0.1),
+                color: const Color(0xFF22C55E).withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: const Icon(
@@ -71,7 +71,6 @@ class _CRMPageState extends State<CRMPage> {
         elevation: 0,
         automaticallyImplyLeading: false,
         actions: [
-          // Botón ATRÁS
           IconButton(
             icon: const Icon(Icons.arrow_back, color: Color(0xFF22C55E)),
             onPressed: () async {
@@ -81,7 +80,6 @@ class _CRMPageState extends State<CRMPage> {
             },
             tooltip: 'Atrás',
           ),
-          // Botón ADELANTE
           IconButton(
             icon: const Icon(Icons.arrow_forward, color: Color(0xFF22C55E)),
             onPressed: () async {
@@ -91,7 +89,6 @@ class _CRMPageState extends State<CRMPage> {
             },
             tooltip: 'Adelante',
           ),
-          // Botón RECARGAR
           IconButton(
             icon: const Icon(Icons.refresh, color: Color(0xFF22C55E)),
             onPressed: () => _controller.reload(),
@@ -114,7 +111,7 @@ class _CRMPageState extends State<CRMPage> {
                     Container(
                       padding: const EdgeInsets.all(20),
                       decoration: BoxDecoration(
-                        color: Colors.red.withOpacity(0.1),
+                        color: Colors.red.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: const Icon(

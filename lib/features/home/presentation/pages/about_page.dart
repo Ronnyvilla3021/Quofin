@@ -82,14 +82,14 @@ class AboutPage extends StatelessWidget {
         });
 
         return Container(
-          color: const Color.fromARGB(26, 34, 197, 94), // _primaryColor con 0.1 opacity
+          color: const Color(0xFF22C55E).withValues(alpha: 0.1),
           child: const Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(
                   Icons.image,
-                  color: Color(0xFF22C55E), // _primaryColor
+                  color: Color(0xFF22C55E),
                   size: 40,
                 ),
                 SizedBox(height: 8),
@@ -97,7 +97,7 @@ class AboutPage extends StatelessWidget {
                   'Imagen no encontrada',
                   style: TextStyle(
                     fontSize: 12,
-                    color: Color(0xFF22C55E), // _primaryColor
+                    color: Color(0xFF22C55E),
                   ),
                 ),
               ],
@@ -106,11 +106,6 @@ class AboutPage extends StatelessWidget {
         );
       },
     );
-  }
-
-  // Helper method para obtener colores con opacidad
-  Color _colorWithOpacity(Color color, int alpha) {
-    return Color.fromARGB(alpha, color.red, color.green, color.blue);
   }
 
   @override
@@ -125,7 +120,7 @@ class AboutPage extends StatelessWidget {
           child: Column(
             children: [
               // HEADER CON IMAGEN Y GRADIENTE
-              Container(
+              SizedBox(
                 height: 280,
                 child: Stack(
                   children: [
@@ -141,8 +136,8 @@ class AboutPage extends StatelessWidget {
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                           colors: [
-                            Color.fromARGB(77, 0, 0, 0), // 0.3 opacity
-                            Color.fromARGB(179, 0, 0, 0), // 0.7 opacity
+                            Color.fromRGBO(0, 0, 0, 0.3),
+                            Color.fromRGBO(0, 0, 0, 0.7),
                           ],
                         ),
                       ),
@@ -206,7 +201,7 @@ class AboutPage extends StatelessWidget {
                           image: AssetImage(AboutImages.manifestoImage),
                           fit: BoxFit.cover,
                           colorFilter: const ColorFilter.mode(
-                            Color.fromARGB(51, 0, 0, 0), // 0.2 opacity
+                            Color.fromRGBO(0, 0, 0, 0.2),
                             BlendMode.darken,
                           ),
                         ),
@@ -214,7 +209,7 @@ class AboutPage extends StatelessWidget {
                       child: Container(
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
-                          color: const Color.fromARGB(218, 255, 255, 255), // 0.85 opacity
+                          color: Colors.white.withValues(alpha: 0.85),
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Row(
@@ -223,12 +218,12 @@ class AboutPage extends StatelessWidget {
                             Container(
                               padding: const EdgeInsets.all(10),
                               decoration: BoxDecoration(
-                                color: const Color.fromARGB(26, 34, 197, 94), // 0.1 opacity
+                                color: const Color(0xFF22C55E).withValues(alpha: 0.1),
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               child: const Icon(
                                 Icons.psychology,
-                                color: Color(0xFF22C55E), // _primaryColor
+                                color: Color(0xFF22C55E),
                                 size: 22,
                               ),
                             ),
@@ -239,7 +234,7 @@ class AboutPage extends StatelessWidget {
                                 style: const TextStyle(
                                   fontSize: 14,
                                   height: 1.5,
-                                  color: Color(0xFF64748B), // _textMuted
+                                  color: Color(0xFF64748B),
                                 ),
                               ),
                             ),
@@ -257,11 +252,6 @@ class AboutPage extends StatelessWidget {
                         Color color = card['color'] as Color;
                         IconData icon = card['icon'] as IconData;
 
-                        // Precalcular colores con opacidad
-                        final colorWithOpacity20 = _colorWithOpacity(color, 51);
-                        final colorWithOpacity70 = _colorWithOpacity(color, 179);
-                        final colorWithOpacity90 = _colorWithOpacity(color, 230);
-
                         return Container(
                           margin: const EdgeInsets.only(bottom: 12),
                           height: 140,
@@ -269,7 +259,7 @@ class AboutPage extends StatelessWidget {
                             borderRadius: BorderRadius.circular(18),
                             boxShadow: [
                               BoxShadow(
-                                color: colorWithOpacity20,
+                                color: color.withValues(alpha: 0.2),
                                 blurRadius: 10,
                                 offset: const Offset(0, 3),
                               ),
@@ -295,8 +285,8 @@ class AboutPage extends StatelessWidget {
                                         begin: Alignment.topLeft,
                                         end: Alignment.bottomRight,
                                         colors: [
-                                          colorWithOpacity70,
-                                          colorWithOpacity90,
+                                          color.withValues(alpha: 0.7),
+                                          color.withValues(alpha: 0.9),
                                         ],
                                       ),
                                     ),
@@ -312,10 +302,10 @@ class AboutPage extends StatelessWidget {
                                       Container(
                                         padding: const EdgeInsets.all(8),
                                         decoration: BoxDecoration(
-                                          color: const Color.fromARGB(51, 255, 255, 255), // 0.2 opacity
+                                          color: Colors.white.withValues(alpha: 0.2),
                                           borderRadius: BorderRadius.circular(10),
                                           border: Border.all(
-                                            color: const Color.fromARGB(77, 255, 255, 255), // 0.3 opacity
+                                            color: Colors.white.withValues(alpha: 0.3),
                                           ),
                                         ),
                                         child: Icon(
@@ -343,7 +333,7 @@ class AboutPage extends StatelessWidget {
                                               card['text'] as String,
                                               style: const TextStyle(
                                                 fontSize: 12,
-                                                color: Color.fromARGB(242, 255, 255, 255), // 0.95 opacity
+                                                color: Color.fromRGBO(255, 255, 255, 0.95),
                                                 height: 1.3,
                                               ),
                                             ),
@@ -373,7 +363,7 @@ class AboutPage extends StatelessWidget {
                           image: AssetImage(AboutImages.valuesBgImage),
                           fit: BoxFit.cover,
                           colorFilter: ColorFilter.mode(
-                            Color.fromARGB(26, 0, 0, 0), // 0.1 opacity
+                            Color.fromRGBO(0, 0, 0, 0.1),
                             BlendMode.darken,
                           ),
                         ),
@@ -381,7 +371,7 @@ class AboutPage extends StatelessWidget {
                       child: Container(
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
-                          color: const Color.fromARGB(218, 255, 255, 255), // 0.85 opacity
+                          color: Colors.white.withValues(alpha: 0.85),
                           borderRadius: BorderRadius.circular(18),
                         ),
                         child: Column(
@@ -392,12 +382,12 @@ class AboutPage extends StatelessWidget {
                                 Container(
                                   padding: const EdgeInsets.all(8),
                                   decoration: BoxDecoration(
-                                    color: const Color.fromARGB(26, 34, 197, 94), // 0.1 opacity
+                                    color: const Color(0xFF22C55E).withValues(alpha: 0.1),
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: const Icon(
                                     Icons.stars,
-                                    color: Color(0xFF22C55E), // _primaryColor
+                                    color: Color(0xFF22C55E),
                                     size: 20,
                                   ),
                                 ),
@@ -407,7 +397,7 @@ class AboutPage extends StatelessWidget {
                                   style: TextStyle(
                                     fontSize: 17,
                                     fontWeight: FontWeight.bold,
-                                    color: Color(0xFF0F172A), // _textPrimary
+                                    color: Color(0xFF0F172A),
                                   ),
                                 ),
                               ],
@@ -423,14 +413,14 @@ class AboutPage extends StatelessWidget {
                                     vertical: 8,
                                   ),
                                   decoration: BoxDecoration(
-                                    color: const Color.fromARGB(242, 255, 255, 255), // 0.95 opacity
+                                    color: Colors.white.withValues(alpha: 0.95),
                                     borderRadius: BorderRadius.circular(12),
                                     border: Border.all(
-                                      color: const Color.fromARGB(77, 34, 197, 94), // 0.3 opacity
+                                      color: const Color(0xFF22C55E).withValues(alpha: 0.3),
                                     ),
                                     boxShadow: const [
                                       BoxShadow(
-                                        color: Color.fromARGB(13, 0, 0, 0), // 0.05 opacity
+                                        color: Color.fromRGBO(0, 0, 0, 0.05),
                                         blurRadius: 6,
                                         offset: Offset(0, 3),
                                       ),
@@ -441,7 +431,7 @@ class AboutPage extends StatelessWidget {
                                     children: [
                                       Icon(
                                         value['icon'] as IconData,
-                                        color: const Color(0xFF22C55E), // _primaryColor
+                                        color: const Color(0xFF22C55E),
                                         size: 15,
                                       ),
                                       const SizedBox(width: 6),
@@ -449,7 +439,7 @@ class AboutPage extends StatelessWidget {
                                         value['text'] as String,
                                         style: const TextStyle(
                                           fontSize: 12,
-                                          color: Color(0xFF0F172A), // _textPrimary
+                                          color: Color(0xFF0F172A),
                                           fontWeight: FontWeight.w500,
                                         ),
                                       ),
@@ -476,7 +466,7 @@ class AboutPage extends StatelessWidget {
                           image: AssetImage(AboutImages.experienceImage),
                           fit: BoxFit.cover,
                           colorFilter: ColorFilter.mode(
-                            Color.fromARGB(77, 0, 0, 0), // 0.3 opacity
+                            Color.fromRGBO(0, 0, 0, 0.3),
                             BlendMode.darken,
                           ),
                         ),
@@ -489,8 +479,8 @@ class AboutPage extends StatelessWidget {
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
                             colors: [
-                              Color.fromARGB(204, 34, 197, 94), // 0.8 opacity
-                              Color.fromARGB(230, 22, 163, 74), // 0.9 opacity
+                              Color.fromRGBO(34, 197, 94, 0.8),
+                              Color.fromRGBO(22, 163, 74, 0.9),
                             ],
                           ),
                         ),
@@ -500,7 +490,7 @@ class AboutPage extends StatelessWidget {
                             Container(
                               padding: const EdgeInsets.all(12),
                               decoration: BoxDecoration(
-                                color: const Color.fromARGB(51, 255, 255, 255), // 0.2 opacity
+                                color: Colors.white.withValues(alpha: 0.2),
                                 borderRadius: BorderRadius.circular(16),
                               ),
                               child: const Icon(
@@ -526,7 +516,7 @@ class AboutPage extends StatelessWidget {
                                 textAlign: TextAlign.center,
                                 style: const TextStyle(
                                   fontSize: 14,
-                                  color: Color.fromARGB(242, 255, 255, 255), // 0.95 opacity
+                                  color: Color.fromRGBO(255, 255, 255, 0.95),
                                   height: 1.3,
                                 ),
                               ),
