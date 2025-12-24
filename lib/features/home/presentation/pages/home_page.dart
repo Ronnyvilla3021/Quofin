@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart'; // <-- Agrega esta importación
+import 'package:url_launcher/url_launcher.dart';
 import '../../../home/presentation/widgets/bottom_nav.dart';
 
 // =======================
@@ -7,16 +7,8 @@ import '../../../home/presentation/widgets/bottom_nav.dart';
 // =======================
 
 const Color _primaryColor = Color(0xFF22C55E);
-const Color _primaryDark = Color(0xFF16A34A);
 const Color _backgroundColor = Color(0xFFF8FAFC);
 const Color _cardColor = Colors.white;
-const Color _textPrimary = Color(0xFF0F172A);
-const Color _textMuted = Color(0xFF64748B);
-const Color _accentColor = Color(0xFF10B981);
-
-const double _titleSize = 28;
-const double _subtitleSize = 16;
-const double _bodySize = 15;
 
 const EdgeInsets _pagePadding = EdgeInsets.all(20);
 
@@ -59,21 +51,21 @@ class HomeController {
       'title': 'Asesoría Financiera',
       'description': 'Estrategias personalizadas para tu negocio',
       'icon': Icons.trending_up,
-      'gradient': [Color(0xFF22C55E), Color(0xFF16A34A)],
+      'gradient': [const Color(0xFF22C55E), const Color(0xFF16A34A)],
       'image': AppImages.advisoryImage,
     },
     {
       'title': 'Gestión Tributaria',
       'description': 'Elaboración y pago de impuestos',
       'icon': Icons.receipt_long,
-      'gradient': [Color(0xFF3B82F6), Color(0xFF2563EB)],
+      'gradient': [const Color(0xFF3B82F6), const Color(0xFF2563EB)],
       'image': AppImages.taxImage,
     },
     {
       'title': 'Custodia Documental',
       'description': 'Manejo seguro de tu papelería',
       'icon': Icons.folder_special,
-      'gradient': [Color(0xFFA855F7), Color(0xFF9333EA)],
+      'gradient': [const Color(0xFFA855F7), const Color(0xFF9333EA)],
       'image': AppImages.custodyImage,
     },
   ];
@@ -110,50 +102,9 @@ class HomeController {
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
-  // Método auxiliar para crear tarjetas de estadísticas
-  Widget _buildStatCard(String value, String label, String icon) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.85),
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.06),
-            blurRadius: 15,
-            offset: const Offset(0, 6),
-          ),
-        ],
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            icon,
-            style: const TextStyle(fontSize: 28),
-          ),
-          const SizedBox(height: 10),
-          Text(
-            value,
-            style: const TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: _primaryColor,
-            ),
-          ),
-          const SizedBox(height: 6),
-          Text(
-            label,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: 12,
-              color: _textMuted,
-              height: 1.3,
-            ),
-          ),
-        ],
-      ),
-    );
+  // Helper method para obtener colores con opacidad
+  Color _colorWithOpacity(Color color, int alpha) {
+    return Color.fromARGB(alpha, color.red, color.green, color.blue);
   }
 
   // Widget para cargar imágenes con placeholder
@@ -161,7 +112,7 @@ class HomePage extends StatelessWidget {
     return Image.asset(
       assetPath,
       fit: fit,
-      color: Colors.black.withOpacity(opacity),
+      color: const Color.fromARGB(102, 0, 0, 0), // 0.4 opacity
       colorBlendMode: BlendMode.darken,
       // Añade un placeholder o manejo de error
       errorBuilder: (context, error, stackTrace) {
@@ -210,16 +161,16 @@ class HomePage extends StatelessWidget {
                             children: [
                               Text(
                                 controller.title,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 24,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white,
                                   letterSpacing: 1.2,
                                   shadows: [
                                     Shadow(
-                                      color: Colors.black.withOpacity(0.5),
+                                      color: Color.fromARGB(128, 0, 0, 0), // 0.5 opacity
                                       blurRadius: 4,
-                                      offset: const Offset(1, 1),
+                                      offset: Offset(1, 1),
                                     )
                                   ],
                                 ),
@@ -229,10 +180,10 @@ class HomePage extends StatelessWidget {
                                 width: 40,
                                 height: 40,
                                 decoration: BoxDecoration(
-                                  color: Colors.white.withOpacity(0.2),
+                                  color: const Color.fromARGB(51, 255, 255, 255), // 0.2 opacity
                                   borderRadius: BorderRadius.circular(12),
                                   border: Border.all(
-                                    color: Colors.white.withOpacity(0.3),
+                                    color: const Color.fromARGB(77, 255, 255, 255), // 0.3 opacity
                                     width: 1.5,
                                   ),
                                 ),
@@ -242,7 +193,7 @@ class HomePage extends StatelessWidget {
                                     AppImages.logo,
                                     fit: BoxFit.cover,
                                     errorBuilder: (context, error, stackTrace) {
-                                      return Center(
+                                      return const Center(
                                         child: Icon(
                                           Icons.business,
                                           color: Colors.white,
@@ -262,37 +213,37 @@ class HomePage extends StatelessWidget {
                           Container(
                             padding: const EdgeInsets.all(28),
                             decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.92),
+                              color: const Color.fromARGB(235, 255, 255, 255), // 0.92 opacity
                               borderRadius: BorderRadius.circular(28),
-                              boxShadow: [
+                              boxShadow: const [
                                 BoxShadow(
-                                  color: Colors.black.withOpacity(0.2),
+                                  color: Color.fromARGB(51, 0, 0, 0), // 0.2 opacity
                                   blurRadius: 30,
-                                  offset: const Offset(0, 15),
+                                  offset: Offset(0, 15),
                                 ),
                               ],
                             ),
                             child: Column(
                               children: [
-                                Text(
-                                  controller.heroTitle,
+                                const Text(
+                                  'Expertos en\nAsesoría Financiera',
                                   textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                    fontSize: _titleSize,
+                                  style: TextStyle(
+                                    fontSize: 28, // _titleSize
                                     fontWeight: FontWeight.bold,
-                                    color: _textPrimary,
+                                    color: Color(0xFF0F172A), // _textPrimary
                                     height: 1.3,
                                   ),
                                 ),
                                 
                                 const SizedBox(height: 12),
                                 
-                                Text(
-                                  controller.heroSubtitle,
+                                const Text(
+                                  'Más de 16 años impulsando el crecimiento de negocios y personas',
                                   textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                    fontSize: _bodySize,
-                                    color: _textMuted,
+                                  style: TextStyle(
+                                    fontSize: 15, // _bodySize
+                                    color: Color(0xFF64748B), // _textMuted
                                     height: 1.5,
                                   ),
                                 ),
@@ -356,7 +307,6 @@ class HomePage extends StatelessWidget {
 
               const SizedBox(height: 32),
 
-              // ... (el resto del código permanece igual)
               // 2. SERVICIOS CON IMÁGENES
               Padding(
                 padding: _pagePadding,
@@ -368,15 +318,15 @@ class HomePage extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
-                        color: _textPrimary,
+                        color: Color(0xFF0F172A), // _textPrimary
                       ),
                     ),
                     const SizedBox(height: 6),
-                    Text(
+                    const Text(
                       'Servicios diseñados para tu éxito',
                       style: TextStyle(
-                        fontSize: _bodySize,
-                        color: _textMuted,
+                        fontSize: 15, // _bodySize
+                        color: Color(0xFF64748B), // _textMuted
                       ),
                     ),
                     const SizedBox(height: 20),
@@ -386,6 +336,14 @@ class HomePage extends StatelessWidget {
                       String image = service['image'] as String;
                       IconData icon = service['icon'] as IconData;
                       
+                      // Precalcular colores con opacidad
+                      final color0 = gradient[0];
+                      final color1 = gradient[1];
+                      final color0WithOpacity30 = _colorWithOpacity(color0, 77);
+                      final color0WithOpacity70 = _colorWithOpacity(color0, 179);
+                      final color0WithOpacity80 = _colorWithOpacity(color0, 204);
+                      final color1WithOpacity90 = _colorWithOpacity(color1, 230);
+                      
                       return Container(
                         margin: const EdgeInsets.only(bottom: 16),
                         height: 180,
@@ -393,7 +351,7 @@ class HomePage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(24),
                           boxShadow: [
                             BoxShadow(
-                              color: gradient[0].withOpacity(0.3),
+                              color: color0WithOpacity30,
                               blurRadius: 20,
                               offset: const Offset(0, 10),
                             ),
@@ -408,11 +366,11 @@ class HomePage extends StatelessWidget {
                                 child: Image.asset(
                                   image,
                                   fit: BoxFit.cover,
-                                  color: gradient[0].withOpacity(0.7),
+                                  color: color0WithOpacity70,
                                   colorBlendMode: BlendMode.color,
                                   errorBuilder: (context, error, stackTrace) {
                                     return Container(
-                                      color: gradient[0],
+                                      color: color0,
                                     );
                                   },
                                 ),
@@ -426,8 +384,8 @@ class HomePage extends StatelessWidget {
                                       begin: Alignment.topLeft,
                                       end: Alignment.bottomRight,
                                       colors: [
-                                        gradient[0].withOpacity(0.8),
-                                        gradient[1].withOpacity(0.9),
+                                        color0WithOpacity80,
+                                        color1WithOpacity90,
                                       ],
                                     ),
                                   ),
@@ -446,7 +404,7 @@ class HomePage extends StatelessWidget {
                                         Container(
                                           padding: const EdgeInsets.all(14),
                                           decoration: BoxDecoration(
-                                            color: Colors.white.withOpacity(0.2),
+                                            color: const Color.fromARGB(51, 255, 255, 255), // 0.2 opacity
                                             borderRadius: BorderRadius.circular(16),
                                           ),
                                           child: Icon(
@@ -472,9 +430,9 @@ class HomePage extends StatelessWidget {
                                               const SizedBox(height: 4),
                                               Text(
                                                 service['description'] as String,
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   fontSize: 14,
-                                                  color: Colors.white.withOpacity(0.9),
+                                                  color: Color.fromARGB(230, 255, 255, 255), // 0.9 opacity
                                                 ),
                                               ),
                                             ],
@@ -494,7 +452,7 @@ class HomePage extends StatelessWidget {
                           ),
                         ),
                       );
-                    }).toList(),
+                    }),
                   ],
                 ),
               ),
@@ -509,14 +467,14 @@ class HomePage extends StatelessWidget {
                     color: _cardColor,
                     borderRadius: BorderRadius.circular(24),
                     border: Border.all(
-                      color: _primaryColor.withOpacity(0.2),
+                      color: const Color.fromARGB(51, 34, 197, 94), // 0.2 opacity
                       width: 2,
                     ),
-                    boxShadow: [
+                    boxShadow: const [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.06),
+                        color: Color.fromARGB(15, 0, 0, 0), // 0.06 opacity
                         blurRadius: 20,
-                        offset: const Offset(0, 8),
+                        offset: Offset(0, 8),
                       ),
                     ],
                   ),
@@ -536,11 +494,11 @@ class HomePage extends StatelessWidget {
                             fit: BoxFit.cover,
                             errorBuilder: (context, error, stackTrace) {
                               return Container(
-                                color: _primaryColor.withOpacity(0.1),
+                                color: const Color.fromARGB(26, 34, 197, 94), // 0.1 opacity
                                 child: const Center(
                                   child: Icon(
                                     Icons.person,
-                                    color: _primaryColor,
+                                    color: Color(0xFF22C55E), // _primaryColor
                                     size: 40,
                                   ),
                                 ),
@@ -558,27 +516,27 @@ class HomePage extends StatelessWidget {
                             children: [
                               const Icon(
                                 Icons.format_quote,
-                                color: _primaryColor,
+                                color: Color(0xFF22C55E), // _primaryColor
                                 size: 40,
                               ),
                               const SizedBox(height: 12),
-                              Text(
-                                controller.quote,
+                              const Text(
+                                '"Un activo pone dinero en mi bolsillo, un pasivo lo saca de él"',
                                 textAlign: TextAlign.center,
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontSize: 16,
                                   fontStyle: FontStyle.italic,
-                                  color: _textPrimary,
+                                  color: Color(0xFF0F172A), // _textPrimary
                                   height: 1.5,
                                 ),
                               ),
                               const SizedBox(height: 12),
-                              Text(
-                                '— ${controller.quoteAuthor}',
-                                style: const TextStyle(
+                              const Text(
+                                '— Robert Kiyosaki',
+                                style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
-                                  color: _primaryColor,
+                                  color: Color(0xFF22C55E), // _primaryColor
                                 ),
                               ),
                             ],
@@ -603,7 +561,7 @@ class HomePage extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
-                        color: _textPrimary,
+                        color: Color(0xFF0F172A), // _textPrimary
                       ),
                     ),
                     const SizedBox(height: 20),
@@ -612,12 +570,12 @@ class HomePage extends StatelessWidget {
                       padding: const EdgeInsets.all(24),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(24),
-                        image: DecorationImage(
+                        image: const DecorationImage(
                           image: AssetImage(AppImages.statsPattern), // LOCAL
                           fit: BoxFit.cover,
                         ),
                       ),
-                      child: Opacity(
+                      child: const Opacity(
                         opacity: 0.9,
                         child: Column(
                           children: [
@@ -625,40 +583,40 @@ class HomePage extends StatelessWidget {
                             Row(
                               children: [
                                 Expanded(
-                                  child: _buildStatCard(
-                                    controller.stats[0]['value']!,
-                                    controller.stats[0]['label']!,
-                                    controller.stats[0]['icon']!,
+                                  child: _StatCard(
+                                    value: '16+',
+                                    label: 'Años de\nexperiencia',
+                                    icon: '⭐',
                                   ),
                                 ),
-                                const SizedBox(width: 16),
+                                SizedBox(width: 16),
                                 Expanded(
-                                  child: _buildStatCard(
-                                    controller.stats[1]['value']!,
-                                    controller.stats[1]['label']!,
-                                    controller.stats[1]['icon']!,
+                                  child: _StatCard(
+                                    value: '180+',
+                                    label: 'Clientes\nnaturales',
+                                    icon: '👥',
                                   ),
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 16),
+                            SizedBox(height: 16),
                             
                             // SEGUNDA FILA (2 elementos)
                             Row(
                               children: [
                                 Expanded(
-                                  child: _buildStatCard(
-                                    controller.stats[2]['value']!,
-                                    controller.stats[2]['label']!,
-                                    controller.stats[2]['icon']!,
+                                  child: _StatCard(
+                                    value: '20+',
+                                    label: 'PYMES\natendidas',
+                                    icon: '🏢',
                                   ),
                                 ),
-                                const SizedBox(width: 16),
+                                SizedBox(width: 16),
                                 Expanded(
-                                  child: _buildStatCard(
-                                    controller.stats[3]['value']!,
-                                    controller.stats[3]['label']!,
-                                    controller.stats[3]['icon']!,
+                                  child: _StatCard(
+                                    value: '\$200K+',
+                                    label: 'Recursos\nrecuperados',
+                                    icon: '💰',
                                   ),
                                 ),
                               ],
@@ -676,6 +634,65 @@ class HomePage extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: const BottomNav(),
+    );
+  }
+}
+
+// Widget separado para las tarjetas de estadísticas
+class _StatCard extends StatelessWidget {
+  final String value;
+  final String label;
+  final String icon;
+
+  const _StatCard({
+    required this.value,
+    required this.label,
+    required this.icon,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: const Color.fromARGB(218, 255, 255, 255), // 0.85 opacity
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: const [
+          BoxShadow(
+            color: Color.fromARGB(15, 0, 0, 0), // 0.06 opacity
+            blurRadius: 15,
+            offset: Offset(0, 6),
+          ),
+        ],
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            icon,
+            style: const TextStyle(fontSize: 28),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            value,
+            style: const TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF22C55E), // _primaryColor
+            ),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            label,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              fontSize: 12,
+              color: Color(0xFF64748B), // _textMuted
+              height: 1.3,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

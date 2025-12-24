@@ -7,14 +7,7 @@ import '../../../home/presentation/widgets/bottom_nav.dart';
 // =======================
 
 const Color _bgColor = Color(0xFFF8FAFC);
-const Color _cardColor = Colors.white;
 const Color _primaryColor = Color(0xFF22C55E);
-const Color _primaryDark = Color(0xFF16A34A);
-const Color _textPrimary = Color(0xFF0F172A);
-const Color _textMuted = Color(0xFF64748B);
-
-const double _titleSize = 26;
-const double _bodySize = 15;
 
 const EdgeInsets _pagePadding = EdgeInsets.all(20);
 
@@ -45,7 +38,7 @@ class ContactController {
       'subtitle': 'Asesoría rápida y directa',
       'icon': Icons.chat,
       'url': 'https://wa.me/593980030415',
-      'color': Color(0xFF25D366),
+      'color': const Color(0xFF25D366),
       'image': ContactImages.whatsappImage,
     },
     {
@@ -53,7 +46,7 @@ class ContactController {
       'subtitle': '09 8003 0415',
       'icon': Icons.phone,
       'url': 'tel:+593980030415',
-      'color': Color(0xFF3B82F6),
+      'color': const Color(0xFF3B82F6),
       'image': ContactImages.phoneImage,
     },
     {
@@ -61,14 +54,13 @@ class ContactController {
       'subtitle': 'sac@qofin.com',
       'icon': Icons.email,
       'url': 'mailto:sac@qofin.com',
-      'color': Color(0xFFEF4444),
+      'color': const Color(0xFFEF4444),
       'image': ContactImages.emailImage,
     },
   ];
 
-  // Dirección actualizada
-  String get address =>
-      'Mariano Echeverría y San Francisco\(Matriz)';
+  // Dirección actualizada (corregido el escape innecesario)
+  String get address => 'Mariano Echeverría y San Francisco (Matriz)';
 
   // URL de Google Maps actualizada
   String get mapsUrl => 'https://maps.app.goo.gl/j7WaFYy5XSoAvV6j7';
@@ -78,13 +70,13 @@ class ContactController {
       'label': 'Instagram',
       'icon': Icons.camera_alt,
       'url': 'https://www.instagram.com/qofinec/',
-      'color': Color(0xFFE1306C),
+      'color': const Color(0xFFE1306C),
     },
     {
       'label': 'Facebook',
       'icon': Icons.facebook,
       'url': 'https://www.facebook.com/QOFINEC',
-      'color': Color(0xFF1877F2),
+      'color': const Color(0xFF1877F2),
     },
   ];
 }
@@ -109,21 +101,26 @@ class ContactPage extends StatelessWidget {
     return Image.asset(
       assetPath,
       fit: fit,
-      color: opacity > 0 ? Colors.black.withOpacity(opacity) : null,
+      color: opacity > 0 ? const Color.fromARGB(102, 0, 0, 0) : null, // 0.4 opacity
       colorBlendMode: opacity > 0 ? BlendMode.darken : null,
       errorBuilder: (context, error, stackTrace) {
         return Container(
-          color: _primaryColor.withOpacity(0.1),
-          child: Center(
+          color: const Color.fromARGB(26, 34, 197, 94), // _primaryColor con 0.1 opacity
+          child: const Center(
             child: Icon(
               Icons.image,
-              color: _primaryColor,
+              color: Color(0xFF22C55E), // _primaryColor
               size: 40,
             ),
           ),
         );
       },
     );
+  }
+
+  // Helper method para obtener colores con opacidad
+  Color _colorWithOpacity(Color color, int alpha) {
+    return Color.fromARGB(alpha, color.red, color.green, color.blue);
   }
 
   @override
@@ -152,13 +149,13 @@ class ContactPage extends StatelessWidget {
                     // Gradiente overlay
                     Container(
                       height: 280,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         gradient: LinearGradient(
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                           colors: [
-                            Colors.black.withOpacity(0.2),
-                            Colors.black.withOpacity(0.6),
+                            Color.fromARGB(51, 0, 0, 0), // 0.2 opacity
+                            Color.fromARGB(153, 0, 0, 0), // 0.6 opacity
                           ],
                         ),
                       ),
@@ -173,10 +170,10 @@ class ContactPage extends StatelessWidget {
                             Container(
                               padding: const EdgeInsets.all(16),
                               decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.2),
+                                color: const Color.fromARGB(51, 255, 255, 255), // 0.2 opacity
                                 borderRadius: BorderRadius.circular(20),
                                 border: Border.all(
-                                  color: Colors.white.withOpacity(0.3),
+                                  color: const Color.fromARGB(77, 255, 255, 255), // 0.3 opacity
                                 ),
                               ),
                               child: const Icon(
@@ -189,7 +186,7 @@ class ContactPage extends StatelessWidget {
                             Text(
                               controller.title,
                               style: const TextStyle(
-                                fontSize: _titleSize,
+                                fontSize: 26, // _titleSize
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
                               ),
@@ -200,9 +197,9 @@ class ContactPage extends StatelessWidget {
                               child: Text(
                                 controller.subtitle,
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: _bodySize,
-                                  color: Colors.white.withOpacity(0.9),
+                                style: const TextStyle(
+                                  fontSize: 15, // _bodySize
+                                  color: Color.fromARGB(230, 255, 255, 255), // 0.9 opacity
                                 ),
                               ),
                             ),
@@ -226,10 +223,10 @@ class ContactPage extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: _textPrimary,
+                        color: Color(0xFF0F172A), // _textPrimary
                       ),
                     ),
-                    
+
                     const SizedBox(height: 16),
 
                     // ACCIONES DE CONTACTO CON IMÁGENES
@@ -237,16 +234,20 @@ class ContactPage extends StatelessWidget {
                       String image = action['image'] as String;
                       Color color = action['color'] as Color;
                       
+                      // Precalcular colores con opacidad
+                      final colorWithOpacity70 = _colorWithOpacity(color, 179);
+                      final colorWithOpacity90 = _colorWithOpacity(color, 230);
+                      
                       return Container(
                         margin: const EdgeInsets.only(bottom: 14),
                         height: 140,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
-                          boxShadow: [
+                          boxShadow: const [
                             BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
+                              color: Color.fromARGB(26, 0, 0, 0), // 0.1 opacity
                               blurRadius: 15,
-                              offset: const Offset(0, 6),
+                              offset: Offset(0, 6),
                             ),
                           ],
                         ),
@@ -270,8 +271,8 @@ class ContactPage extends StatelessWidget {
                                       begin: Alignment.topLeft,
                                       end: Alignment.bottomRight,
                                       colors: [
-                                        color.withOpacity(0.7),
-                                        color.withOpacity(0.9),
+                                        colorWithOpacity70,
+                                        colorWithOpacity90,
                                       ],
                                     ),
                                   ),
@@ -282,7 +283,7 @@ class ContactPage extends StatelessWidget {
                               Material(
                                 color: Colors.transparent,
                                 child: InkWell(
-                                  onTap: () => _open(action['url']!),
+                                  onTap: () => _open(action['url']! as String),
                                   child: Padding(
                                     padding: const EdgeInsets.all(16),
                                     child: Row(
@@ -290,14 +291,14 @@ class ContactPage extends StatelessWidget {
                                         Container(
                                           padding: const EdgeInsets.all(12),
                                           decoration: BoxDecoration(
-                                            color: Colors.white.withOpacity(0.2),
+                                            color: const Color.fromARGB(51, 255, 255, 255), // 0.2 opacity
                                             borderRadius: BorderRadius.circular(14),
                                             border: Border.all(
-                                              color: Colors.white.withOpacity(0.3),
+                                              color: const Color.fromARGB(77, 255, 255, 255), // 0.3 opacity
                                             ),
                                           ),
                                           child: Icon(
-                                            action['icon'],
+                                            action['icon'] as IconData,
                                             color: Colors.white,
                                             size: 26,
                                           ),
@@ -309,7 +310,7 @@ class ContactPage extends StatelessWidget {
                                             mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
                                               Text(
-                                                action['title']!,
+                                                action['title']! as String,
                                                 style: const TextStyle(
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.bold,
@@ -318,10 +319,10 @@ class ContactPage extends StatelessWidget {
                                               ),
                                               const SizedBox(height: 4),
                                               Text(
-                                                action['subtitle']!,
-                                                style: TextStyle(
+                                                action['subtitle']! as String,
+                                                style: const TextStyle(
                                                   fontSize: 13,
-                                                  color: Colors.white.withOpacity(0.9),
+                                                  color: Color.fromARGB(230, 255, 255, 255), // 0.9 opacity
                                                 ),
                                               ),
                                             ],
@@ -341,7 +342,7 @@ class ContactPage extends StatelessWidget {
                           ),
                         ),
                       );
-                    }).toList(),
+                    }),
 
                     const SizedBox(height: 24),
 
@@ -350,11 +351,11 @@ class ContactPage extends StatelessWidget {
                       height: 260,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
-                        image: DecorationImage(
+                        image: const DecorationImage(
                           image: AssetImage(ContactImages.locationImage),
                           fit: BoxFit.cover,
                           colorFilter: ColorFilter.mode(
-                            Colors.black.withOpacity(0.2),
+                            Color.fromARGB(51, 0, 0, 0), // 0.2 opacity
                             BlendMode.darken,
                           ),
                         ),
@@ -362,7 +363,7 @@ class ContactPage extends StatelessWidget {
                       child: Container(
                         padding: const EdgeInsets.all(20),
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.85),
+                          color: const Color.fromARGB(218, 255, 255, 255), // 0.85 opacity
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Column(
@@ -388,7 +389,7 @@ class ContactPage extends StatelessWidget {
                                     style: TextStyle(
                                       fontSize: 17,
                                       fontWeight: FontWeight.bold,
-                                      color: _textPrimary,
+                                      color: Color(0xFF0F172A), // _textPrimary
                                     ),
                                   ),
                                 ),
@@ -400,7 +401,7 @@ class ContactPage extends StatelessWidget {
                               textAlign: TextAlign.center,
                               style: const TextStyle(
                                 fontSize: 14,
-                                color: _textMuted,
+                                color: Color(0xFF64748B), // _textMuted
                                 height: 1.5,
                               ),
                             ),
@@ -440,11 +441,11 @@ class ContactPage extends StatelessWidget {
                       height: 200,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
-                        image: DecorationImage(
+                        image: const DecorationImage(
                           image: AssetImage(ContactImages.socialImage),
                           fit: BoxFit.cover,
                           colorFilter: ColorFilter.mode(
-                            Colors.black.withOpacity(0.15),
+                            Color.fromARGB(38, 0, 0, 0), // 0.15 opacity
                             BlendMode.darken,
                           ),
                         ),
@@ -452,7 +453,7 @@ class ContactPage extends StatelessWidget {
                       child: Container(
                         padding: const EdgeInsets.all(20),
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.85),
+                          color: const Color.fromARGB(218, 255, 255, 255), // 0.85 opacity
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Column(
@@ -463,12 +464,12 @@ class ContactPage extends StatelessWidget {
                                 Container(
                                   padding: const EdgeInsets.all(10),
                                   decoration: BoxDecoration(
-                                    color: _primaryColor.withOpacity(0.1),
+                                    color: const Color.fromARGB(26, 34, 197, 94), // 0.1 opacity
                                     borderRadius: BorderRadius.circular(12),
                                   ),
                                   child: const Icon(
                                     Icons.share,
-                                    color: _primaryColor,
+                                    color: Color(0xFF22C55E), // _primaryColor
                                     size: 22,
                                   ),
                                 ),
@@ -478,7 +479,7 @@ class ContactPage extends StatelessWidget {
                                   style: TextStyle(
                                     fontSize: 17,
                                     fontWeight: FontWeight.bold,
-                                    color: _textPrimary,
+                                    color: Color(0xFF0F172A), // _textPrimary
                                   ),
                                 ),
                               ],
@@ -486,20 +487,22 @@ class ContactPage extends StatelessWidget {
                             const SizedBox(height: 20),
                             Row(
                               children: controller.socials.map((social) {
+                                final Color socialColor = social['color'] as Color;
+                                final Color color90 = _colorWithOpacity(socialColor, 230);
+                                final Color color70 = _colorWithOpacity(socialColor, 179);
+                                final Color color30 = _colorWithOpacity(socialColor, 77);
+                                
                                 return Expanded(
                                   child: Container(
                                     margin: const EdgeInsets.symmetric(horizontal: 6),
                                     decoration: BoxDecoration(
                                       gradient: LinearGradient(
-                                        colors: [
-                                          social['color'].withOpacity(0.9),
-                                          social['color'].withOpacity(0.7),
-                                        ],
+                                        colors: [color90, color70],
                                       ),
                                       borderRadius: BorderRadius.circular(16),
                                       boxShadow: [
                                         BoxShadow(
-                                          color: social['color'].withOpacity(0.3),
+                                          color: color30,
                                           blurRadius: 10,
                                           offset: const Offset(0, 4),
                                         ),
@@ -509,19 +512,19 @@ class ContactPage extends StatelessWidget {
                                       color: Colors.transparent,
                                       child: InkWell(
                                         borderRadius: BorderRadius.circular(16),
-                                        onTap: () => _open(social['url']!),
+                                        onTap: () => _open(social['url']! as String),
                                         child: Padding(
                                           padding: const EdgeInsets.symmetric(vertical: 14),
                                           child: Column(
                                             children: [
                                               Icon(
-                                                social['icon'],
+                                                social['icon'] as IconData,
                                                 color: Colors.white,
                                                 size: 28,
                                               ),
                                               const SizedBox(height: 6),
                                               Text(
-                                                social['label']!,
+                                                social['label']! as String,
                                                 style: const TextStyle(
                                                   color: Colors.white,
                                                   fontSize: 12,
